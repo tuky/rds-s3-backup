@@ -8,7 +8,7 @@ require 'logger'
 
 # Fog defaults to 600 second timeout, but this isn't long enough. See:
 # #68268570.
-Fog.timeout = 1200
+Fog.timeout = 1800
 
 class RdsS3Backup < Thor
 
