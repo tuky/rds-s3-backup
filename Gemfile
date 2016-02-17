@@ -1,3 +1,5 @@
+source 'https://rubygems.org'
+gem 'nokogiri', '~> 1.5.11'
 gem 'cocaine'
 gem 'thor'
 gem 'fog', '~> 0.10.0'
