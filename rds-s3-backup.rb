@@ -21,7 +21,7 @@ class RdsS3Backup < Thor
   method_option :mysql_database
   method_option :mysql_username
   method_option :mysql_password
-  method_option :dump_ttl, :default => 0, :desc => "Number of old dumps to keep."
+  method_option :dump_ttl, :default => 0, :desc => "Number of old dumps to keep.", :type => :numeric
   method_option :dump_directory, :default => '/mnt/', :desc => "Where to store the temporary sql dump file."
   method_option :config_file, :desc => "YAML file of defaults for any option. Options given during execution override these."
   method_option :aws_region, :default => "us-east-1", :desc => "Region of your RDS server (and S3 storage, unless aws-s3-region is specified)."
