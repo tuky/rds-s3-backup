@@ -61,6 +61,10 @@ class RdsS3Backup < Thor
     backup_server = rds.servers.get(backup_server_id)
     backup_server.wait_for { ready? }
     backup_server.wait_for { ready? }
+    backup_server.modify(true, 'AutoMinorVersionUpgrade' => false, 'BackupRetentionPeriod' => 0)
+    sleep(10)
+    backup_server.wait_for { ready? }
+    backup_server.wait_for { ready? }
 
     mysqldump_command = Cocaine::CommandLine.new('mysqldump',
       '--opt -f --compress --routines --triggers -h :host_address -u :mysql_username --password=:mysql_password :mysql_database | gzip -9 > :backup_filepath',
