@@ -8,7 +8,7 @@ require 'logger'
 
 # Fog defaults to 600 second timeout, but this isn't long enough. See:
 # #68268570.
-Fog.timeout = 1800
+Fog.timeout = 7200
 
 class RdsS3Backup < Thor
 
@@ -63,7 +63,7 @@ class RdsS3Backup < Thor
     backup_server.wait_for { ready? }
 
     mysqldump_command = Cocaine::CommandLine.new('mysqldump',
-      '--opt -f --routines --triggers -h :host_address -u :mysql_username --password=:mysql_password :mysql_database | gzip -3 > :backup_filepath',
+      '--opt -f --compress --routines --triggers -h :host_address -u :mysql_username --password=:mysql_password :mysql_database | gzip -9 > :backup_filepath',
       :host_address    => backup_server.endpoint['Address'],
       :mysql_username  => my_options[:mysql_username],
       :mysql_password  => my_options[:mysql_password],
@@ -87,6 +87,9 @@ class RdsS3Backup < Thor
                            :content_type => 'application/x-gzip'
                            ).save
       rescue Exception => e
+        puts "An error of type #{e.class} happened."
+        puts "Error during processing: #{$!}"
+        puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
         if tries < 3
           puts "Retrying S3 upload after #{tries} tries"
           tries += 1
