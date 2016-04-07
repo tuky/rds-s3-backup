@@ -67,7 +67,7 @@ class RdsS3Backup < Thor
     backup_server.wait_for { ready? }
 
     mysqldump_command = Cocaine::CommandLine.new('mysqldump',
-      '--opt -f --compress --routines --triggers -h :host_address -u :mysql_username --password=:mysql_password :mysql_database | gzip -9 > :backup_filepath',
+      '--opt --quick --single-transaction --routines --triggers -h :host_address -u :mysql_username --password=:mysql_password :mysql_database | gzip -9 > :backup_filepath',
       :host_address    => backup_server.endpoint['Address'],
       :mysql_username  => my_options[:mysql_username],
       :mysql_password  => my_options[:mysql_password],
