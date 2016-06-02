@@ -39,7 +39,7 @@ class RdsS3Backup < Thor
                                   :aws_access_key_id => my_options[:aws_access_key_id],
                                   :aws_secret_access_key => my_options[:aws_secret_access_key],
                                   :region => my_options[:aws_s3_region] || my_options[:aws_region],
-                                  :scheme => 'http')
+                                  :scheme => 'https')
 
     s3_bucket  = s3.directories.get(my_options[:s3_bucket])
 
